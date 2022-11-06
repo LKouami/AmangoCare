@@ -1,6 +1,6 @@
 ﻿namespace AmangoCareLibrary.Models
 {
-    public class VisaCard
+    public class VisaCardModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -10,6 +10,6 @@
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public DateTime DateUpdated { get; set; }
         public bool VisaCardState { get; set; }
-        public string AccountId { get; set; }
+        public AccountModel Account { get; set; }
     }
 }

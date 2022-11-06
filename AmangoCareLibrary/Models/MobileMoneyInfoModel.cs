@@ -1,6 +1,6 @@
 ﻿namespace AmangoCareLibrary.Models
 {
-    public class MobileMoneyInfo
+    public class MobileMoneyInfoModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -10,6 +10,7 @@
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public DateTime DateUpdated { get; set; }
         public bool MobileMoneyInfoState { get; set; }
-        public string AccountId { get; set; }
+        public AccountModel Account { get; set; }
+        public MobileMoneyTypeModel MobileMoneyType { get; set; }
     }   
 }

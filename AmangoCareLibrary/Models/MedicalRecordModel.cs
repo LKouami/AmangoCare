@@ -1,6 +1,6 @@
 ﻿namespace AmangoCareLibrary.Models
 {
-    public class MedicalRecord
+    public class MedicalRecordModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -12,10 +12,9 @@
         public string MedicalRecordHeight { get; set; }
         public string MedicalRecordRecommendation { get; set; }
         public bool MedicalRecordOrganDonor { get; set; }
-        public string MedicalRecordEmergencyContact1 { get; set; }
-        public string MedicalRecordEmergencyContact2 { get; set; }
-        public string MedicalRecordEmergencyContact3 { get; set; }
+        public HashSet<string> MedicalRecordEmergencyContact { get; set; }= new();
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;    
         public DateTime DateUpdated { get; set; }
+        public SubscriberModel Subscriber { get; set; }
     }
 }
