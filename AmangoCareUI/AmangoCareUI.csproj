@@ -9,10 +9,12 @@
   <ItemGroup>
     <Folder Include="Components\" />
     <Folder Include="Models\" />
+    <Folder Include="Pages\UserView\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BlazorStrap" Version="5.0.106" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.5" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.5" />
   </ItemGroup>

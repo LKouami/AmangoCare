@@ -15,6 +15,7 @@
         public DateTime DateUpdated { get; set; }
         public bool HospitalState { get; set; }
         public List<BenefitModel> HospitalBenefits { get; set; } = new();
+        public List<HealthWorkerModel> HealthWorkers { get; set; } = new();
         public AccountModel Account { get; set; }
 
     }

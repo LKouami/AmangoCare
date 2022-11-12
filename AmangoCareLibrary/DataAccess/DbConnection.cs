@@ -14,6 +14,7 @@ namespace AmangoCareLibrary.DataAccess
         public string BankCollectionName { get; private set; } = "banks";
         public string BenefitCollectionName { get; private set; } = "benefits";
         public string BenefitStateCollectionName { get; private set; } = "benefitstates";
+        public string HealthWorkerCollectionName { get; private set; } = "healthworkers";
         public string HospitalCollectionName { get; private set; } = "hospitals";
         public string MedicalRecordCollectionName { get; private set; } = "medicalrecords";
         public string MobileMoneyInfoCollectionName { get; private set; } = "mobilemoneyinfos";
@@ -28,6 +29,7 @@ namespace AmangoCareLibrary.DataAccess
         public IMongoCollection<BankModel> BankCollection { get; private set; }
         public IMongoCollection<BenefitModel> BenefitCollection { get; private set; }
         public IMongoCollection<BenefitStateModel> BenefitStateCollection { get; private set; }
+        public IMongoCollection<HealthWorkerModel> HealthWorkerCollection { get; private set; }
         public IMongoCollection<HospitalModel> HospitalCollection { get; private set; }
         public IMongoCollection<MedicalRecordModel> MedicalRecordCollection { get; private set; }
         public IMongoCollection<MobileMoneyInfoModel> MobileMoneyInfoCollection { get; private set; }
@@ -49,6 +51,7 @@ namespace AmangoCareLibrary.DataAccess
             BankCollection = _db.GetCollection<BankModel>(BankCollectionName);
             BenefitCollection = _db.GetCollection<BenefitModel>(BenefitCollectionName);
             BenefitStateCollection = _db.GetCollection<BenefitStateModel>(BenefitStateCollectionName);
+            HealthWorkerCollection = _db.GetCollection<HealthWorkerModel>(HealthWorkerCollectionName);
             HospitalCollection = _db.GetCollection<HospitalModel>(HospitalCollectionName);
             MedicalRecordCollection = _db.GetCollection<MedicalRecordModel>(MedicalRecordCollectionName);
             MobileMoneyInfoCollection = _db.GetCollection<MobileMoneyInfoModel>(MobileMoneyInfoCollectionName);

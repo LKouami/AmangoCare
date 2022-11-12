@@ -24,11 +24,13 @@ namespace AmangoCareLibrary.DataAccess
         string MobileMoneyInfoCollectionName { get; }
         IMongoCollection<MobileMoneyTypeModel> MobileMoneyTypeCollection { get; }
         string MobileMoneyTypeCollectionName { get; }
-        IMongoCollection<SubscriberModel> SubscriberCollection { get; }
+        IMongoCollection<SubscriberModel> SubscriberCollection { get; } 
         string SubscriberCollectionName { get; }
         IMongoCollection<UserModel> UserCollection { get; }
         string UserCollectionName { get; }
         IMongoCollection<VisaCardModel> VisaCardCollection { get; }
         string VisaCardCollectionName { get; }
+        string HealthWorkerCollectionName { get; }
+        IMongoCollection<HealthWorkerModel> HealthWorkerCollection { get; }
     }
 }
