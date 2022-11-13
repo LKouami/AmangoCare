@@ -1,0 +1,114 @@
+﻿@page "/platform/admin/visacard"
+@using AmangoCareUI.Pages.Platform.Admin.VisaCard.Modal
+@inject IVisaCardData visaCardData
+@inject NavigationManager navManager
+@*@inject ProtectedBrowserStorage sessionStorage*@
+<h3>Visa Card Admin</h3>
+<p><BSButton @onclick="CreateVisaCards" Color="BSColor.Primary" IsOutlined="true">Create Visacard data</BSButton></p>
+<p>
+	@if (isVisaCardCreated)
+	{
+		<p> Visa Card Created </p>
+	}
+</p>
+@if (visaCards == null )
+{
+	<BSSpinner Color="BSColor.Primary" />
+} else
+{
+	<BSDataTable Items="visaCards" PaginationBottom="true" StartPage="_startPage" RowsPerPage="20" Context="item">
+		<Header>
+			@*<BSDataTableHead TValue="VisaCardModel" Sortable="true" Column="@(nameof(VisaCardModel.VisaCardId))">Id</BSDataTableHead>*@
+			<BSDataTableHead TValue="VisaCardModel" Sortable="true" Column="@(nameof(VisaCardModel.VisaCardNumber))" ColumnFilter="true">Number</BSDataTableHead>
+			<BSDataTableHead TValue="VisaCardModel" Sortable="true" Column="@(nameof(VisaCardModel.VisaCardExpirationDate))" ColumnFilter="true">Expdate</BSDataTableHead>
+			<BSDataTableHead TValue="VisaCardModel" Column="Actions">Actions</BSDataTableHead>
+		</Header>
+		<Body>
+			<BSDataTableRow>
+				@*<BSTD>
+			@item.VisaCardId
+			</BSTD>*@
+				<BSTD>
+					@item.VisaCardNumber
+				</BSTD>
+				<BSTD>
+					@item.VisaCardExpirationDate
+				</BSTD>
+				<BSTD>
+					<BSButtonGroup>
+						<BSDropdown>
+							<Toggler>
+								<BSToggle IsButton="true" IsOutlined="true" Color="BSColor.Primary">actions</BSToggle>
+							</Toggler>
+							<Content>
+								<BSDropdownItem IsButton="true" Target="model9">Ajouter</BSDropdownItem>
+								<BSDropdownItem>Modifier</BSDropdownItem>
+								<BSDropdownItem>Supprimer</BSDropdownItem>
+							</Content>
+						</BSDropdown>
+					</BSButtonGroup>
+					@*<BSDropdown>
+
+						<Toggler >
+							<BSToggle >
+								<span class="oi oi-menu" aria-hidden="true"></span>
+							</BSToggle>
+						</Toggler>
+						<Content>
+							<BSDropdownItem Color="BSColor.Primary" Target="model9">Ajouter</BSDropdownItem>
+							<BSDropdownItem >Modifier</BSDropdownItem>
+							<BSDropdownItem IsDivider="true" />
+							<BSDropdownItem >Supprimer</BSDropdownItem>
+						</Content>
+					</BSDropdown>*@
+					@*<BSButton Color="BSColor.Primary" Target="model9"></BSButton>*@
+				</BSTD>
+			</BSDataTableRow>
+		</Body>
+	</BSDataTable>
+	<VisaCardModal dataId ="model9" ></VisaCardModal>
+
+}
+@code {
+	private IEnumerable<VisaCardModel> visaCards;
+	private readonly int _startPage = 1;
+	private readonly VisaCardModel _model = new VisaCardModel();
+	private bool isVisaCardCreated = false;
+
+	private async Task CreateVisaCards()
+	{
+		VisaCardModel model = new()
+			{
+				VisaCardNumber = "4025-5565-8587-8698",
+				VisaCardState = true,
+				VisaCardExpirationDate = DateTime.UtcNow,
+			};
+		await visaCardData.CreateVisaCard(model);
+		isVisaCardCreated = true;
+		visaCards = await visaCardData.GetAllVisaCards();
+
+	}
+
+	protected async override Task OnInitializedAsync()
+	{
+		visaCards = await visaCardData.GetAllVisaCards();
+	}
+	
+	//protected async override Task OnAfterRenderAsync(bool firstRender)
+	//{
+	//	if (firstRender)
+	//	{
+
+	//	}
+	//}
+
+	//private async Task<(IEnumerable<VisaCardModel>, int)> FetchItems(DataRequest dataRequest)
+	//{
+	//	visaCards = await visaCardData.GetAllVisaCards();
+	//	return (visaCards, 2);
+	//}
+
+	
+
+
+}

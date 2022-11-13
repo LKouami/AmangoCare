@@ -1,0 +1,38 @@
+﻿<h3>VisaCardModal</h3>
+@inject IBlazorStrap blazorStrap
+
+<BSModal IsStaticBackdrop="true" DataId=@dataId OnShow="@(() => NewVisaCard(new VisaCardModel()))">
+	<BSForm Model="model" OnValidSubmit="@Update">
+		<BSModalHeader>New VisaCard Form</BSModalHeader>
+		<BSModalContent>
+			<div class="mb-3">
+				<BSLabel>Number</BSLabel>
+				<BSInput InputType="InputType.Text" @bind-Value="model.VisaCardNumber" />
+			</div>
+			<div class="mb-3">
+				<BSLabel>Exp Date</BSLabel>
+				<BSInput InputType="InputType.DateTimeLocal" placeholder="name@example.com" @bind-Value="model.VisaCardExpirationDate" />
+			</div>
+		</BSModalContent>
+		<BSModalFooter>
+			<BSButton Target="model9">Cancel</BSButton>
+			<BSButton IsSubmit="true" Color="BSColor.Primary">Save</BSButton>
+		</BSModalFooter>
+	</BSForm>
+</BSModal>
+
+
+@code {
+	BSModal refModal;
+	[Parameter]
+	public string dataId { get; set; }
+	private VisaCardModel model = new VisaCardModel();
+	private async Task NewVisaCard(VisaCardModel e)
+	{
+		model = e;
+	}
+	private async Task Update()
+	{
+		blazorStrap.ForwardClick("model9");
+	}
+}
