@@ -1,24 +1,65 @@
-﻿<h3>VisaCardModal</h3>
-@inject IBlazorStrap blazorStrap
+﻿@inject IBlazorStrap blazorStrap
+@inject IVisaCardData visaCardData
 
 <BSModal IsStaticBackdrop="true" DataId=@dataId OnShow="@(() => NewVisaCard(new VisaCardModel()))">
-	<BSForm Model="model" OnValidSubmit="@Update">
-		<BSModalHeader>New VisaCard Form</BSModalHeader>
+@if (choosedAction == "edit")
+	{
+	<BSForm Model="oneVisaCard" OnValidSubmit="@Update">
+		<FluentValidator TValidator="VisaCardValidator" />
+		<BSModalHeader>Modifier</BSModalHeader>
 		<BSModalContent>
 			<div class="mb-3">
 				<BSLabel>Number</BSLabel>
-				<BSInput InputType="InputType.Text" @bind-Value="OneVisaCard.VisaCardNumber" />
+				<BSInput InputType="InputType.Text" @bind-Value="oneVisaCard.VisaCardNumber" />
+				<ValidationMessage For="@(() => oneVisaCard.VisaCardNumber)" />
 			</div>
 			<div class="mb-3">
 				<BSLabel>Exp Date</BSLabel>
-				<BSInput InputType="InputType.DateTimeLocal" placeholder="name@example.com" @bind-Value="OneVisaCard.VisaCardExpirationDate" />
+				<BSInput InputType="InputType.DateTimeLocal" placeholder="name@example.com" @bind-Value="oneVisaCard.VisaCardExpirationDate" />
+				<ValidationMessage For="@(() => oneVisaCard.VisaCardExpirationDate)" />
 			</div>
 		</BSModalContent>
 		<BSModalFooter>
-			<BSButton Target="model9">Cancel</BSButton>
-			<BSButton IsSubmit="true" Color="BSColor.Primary">Save</BSButton>
+			<BSButton Target="model9">Annuler</BSButton>
+			<BSButton IsSubmit="true" Color="BSColor.Warning">Modifier</BSButton>
 		</BSModalFooter>
 	</BSForm>
+	} else if (choosedAction == "add")
+	{
+		<BSForm Model="visaCardModel" OnValidSubmit="@CreateVisaCard">
+			<FluentValidator TValidator="VisaCardValidator" />
+			<BSModalHeader>Ajouter</BSModalHeader>
+			<BSModalContent>
+				<div class="mb-3">
+					<BSLabel>Numéro</BSLabel>
+					<BSInput InputType="InputType.Text" @bind-Value="visaCardModel.VisaCardNumber" />
+					<ValidationMessage For="@(() => visaCardModel.VisaCardNumber)" />
+				</div>
+				<div class="mb-3">
+					<BSLabel>Date Exp</BSLabel>
+					<BSInput InputType="InputType.DateTimeLocal" placeholder="name@example.com" @bind-Value="visaCardModel.VisaCardExpirationDate" />
+					<ValidationMessage For="@(() => visaCardModel.VisaCardExpirationDate)" />
+				</div>
+			</BSModalContent>
+			<BSModalFooter>
+				<BSButton Target="model9">Annuler</BSButton>
+				<BSButton IsSubmit="true" Color="BSColor.Primary">Ajouter</BSButton>
+			</BSModalFooter>
+		</BSForm>
+	} else
+	{
+		<BSForm Model="oneVisaCard" OnValidSubmit="@Update">
+			<FluentValidator TValidator="VisaCardValidator" />
+			<BSModalHeader>Supprimer</BSModalHeader>
+			<BSModalContent>
+				<h3>Voulez-vous vraiment supprimer ?</h3>
+			</BSModalContent>
+			<BSModalFooter>
+				<BSButton Target="model9">Annuler</BSButton>
+				<BSButton IsSubmit="true" Color="BSColor.Danger">Supprimer</BSButton>
+			</BSModalFooter>
+		</BSForm>
+	}
 </BSModal>
 
 
@@ -27,14 +68,42 @@
 	[Parameter]
 	public string dataId { get; set; }
 	[Parameter]
-	public VisaCardModel OneVisaCard { get; set; }
-	private VisaCardModel model = new VisaCardModel();
+	public string choosedAction { get; set; }
+	[Parameter]
+	public VisaCardModel oneVisaCard { get; set; }
+	private VisaCardModel visaCardModel = new VisaCardModel();
+
+	private async Task CreateVisaCard()
+	{
+
+
+		VisaCardModel model = new()
+			{
+				VisaCardNumber = visaCardModel.VisaCardNumber,
+				VisaCardState = true,
+				VisaCardExpirationDate = visaCardModel.VisaCardExpirationDate,
+			};
+		await visaCardData.CreateVisaCard(model);
+		blazorStrap.ForwardClick("model9");
+		Console.WriteLine("crééééé");
+
+	}
 	private async Task NewVisaCard(VisaCardModel e)
 	{
-		model = e;
+		visaCardModel = e;
 	}
 	private async Task Update()
 	{
 		blazorStrap.ForwardClick("model9");
+
+	}
+
+	public class VisaCardValidator : AbstractValidator<VisaCardModel>
+	{
+		public VisaCardValidator()
+		{
+			RuleFor(visaCard => visaCard.VisaCardNumber).NotEmpty().WithMessage("Le numero est requis").Matches("^\\d{16}$").WithMessage("Le numero doit être de 16 chiffres");
+			RuleFor(visaCard => visaCard.VisaCardExpirationDate).NotEmpty().WithMessage("Date expiration obligatoire").GreaterThan(DateTime.UtcNow.AddYears(1)).WithMessage("Votre carte doit expirer dans au moins un an");
+		}
 	}
 }

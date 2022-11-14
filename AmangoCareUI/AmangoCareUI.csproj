@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="BlazorStrap" Version="5.0.106" />
+    <PackageReference Include="BlazorStrap.Extensions.FluentValidation" Version="2.0.0" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.5" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.5" />
   </ItemGroup>

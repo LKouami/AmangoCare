@@ -35,12 +35,12 @@
 					@item.VisaCardExpirationDate
 				</BSTD>
 				<BSTD>
-					<BSButton IsOutlined="true" Color="BSColor.Dark" DataId="popoverLeft"><i class="bi bi-three-dots-vertical"></i></BSButton>
-					<BSPopover Placement="Placement.Left" Target="popoverLeft">
+					<BSButton IsOutlined="true" Color="BSColor.Dark" DataId="@item.VisaCardId"><i class="bi bi-three-dots-vertical"></i></BSButton>
+					<BSPopover Placement="Placement.Left" Target="@item.VisaCardId">
 						<Content>
-							<BSButton IsOutlined="true" @OnClick="() => currentVisaCard = @item " Color="BSColor.Primary" Target="model9" style="width : 120px">Ajouter</BSButton> <br>
-							<BSButton IsOutlined="true" Color="BSColor.Warning" Target="model9" style="width : 120px; margin-top: 2px">Modifier</BSButton><br>
-							<BSButton IsOutlined="true" Color="BSColor.Danger" Target="model9" style="width : 120px; margin-top: 2px">Supprimer</BSButton>
+							<BSButton IsOutlined="true" @onclick="@(() => SetCurrentVisaCard(@item, "add"))" Color="BSColor.Primary" Target="model9" style="width : 120px">Ajouter</BSButton> <br>
+							<BSButton IsOutlined="true" @onclick="@(() => SetCurrentVisaCard(@item, "edit"))" Color="BSColor.Warning" Target="model9" style="width : 120px; margin-top: 2px">Modifier</BSButton><br>
+							<BSButton IsOutlined="true" @onclick="@(() => SetCurrentVisaCard(@item, "delete"))" Color="BSColor.Danger" Target="model9" style="width : 120px; margin-top: 2px">Supprimer</BSButton>
 						</Content>
 					</BSPopover>
 					
@@ -49,15 +49,16 @@
 			</BSDataTableRow>
 		</Body>
 	</BSDataTable>
-	<VisaCardModal dataId="model9" OneVisaCard=@currentVisaCard></VisaCardModal>
+	<VisaCardModal dataId="model9" oneVisaCard=@currentVisaCard choosedAction=@action></VisaCardModal>
 
 }
 @code {
-	private IEnumerable<VisaCardModel> visaCards;
+	public IEnumerable<VisaCardModel> visaCards;
 	private readonly int _startPage = 1;
 	private readonly VisaCardModel _model = new VisaCardModel();
 	private bool isVisaCardCreated = false;
-	public VisaCardModel currentVisaCard = new VisaCardModel()
+	private VisaCardModel currentVisaCard = new VisaCardModel();
+	private string action;
 
 	private async Task CreateVisaCards()
 	{
@@ -71,6 +72,12 @@
 		isVisaCardCreated = true;
 		visaCards = await visaCardData.GetAllVisaCards();
 
+	}
+
+	private async Task SetCurrentVisaCard(VisaCardModel currentVisaCard, string action)
+	{
+		this.currentVisaCard = currentVisaCard;
+		this.action = action;
 	}
 
 	protected async override Task OnInitializedAsync()
