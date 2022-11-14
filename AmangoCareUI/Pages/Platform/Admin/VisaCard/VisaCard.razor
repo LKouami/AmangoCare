@@ -35,38 +35,21 @@
 					@item.VisaCardExpirationDate
 				</BSTD>
 				<BSTD>
-					<BSButtonGroup>
-						<BSDropdown>
-							<Toggler>
-								<BSToggle IsButton="true" IsOutlined="true" Color="BSColor.Primary">actions</BSToggle>
-							</Toggler>
-							<Content>
-								<BSDropdownItem IsButton="true" Target="model9">Ajouter</BSDropdownItem>
-								<BSDropdownItem>Modifier</BSDropdownItem>
-								<BSDropdownItem>Supprimer</BSDropdownItem>
-							</Content>
-						</BSDropdown>
-					</BSButtonGroup>
-					@*<BSDropdown>
-
-						<Toggler >
-							<BSToggle >
-								<span class="oi oi-menu" aria-hidden="true"></span>
-							</BSToggle>
-						</Toggler>
+					<BSButton IsOutlined="true" Color="BSColor.Dark" DataId="popoverLeft"><i class="bi bi-three-dots-vertical"></i></BSButton>
+					<BSPopover Placement="Placement.Left" Target="popoverLeft">
 						<Content>
-							<BSDropdownItem Color="BSColor.Primary" Target="model9">Ajouter</BSDropdownItem>
-							<BSDropdownItem >Modifier</BSDropdownItem>
-							<BSDropdownItem IsDivider="true" />
-							<BSDropdownItem >Supprimer</BSDropdownItem>
+							<BSButton IsOutlined="true" @OnClick="() => currentVisaCard = @item " Color="BSColor.Primary" Target="model9" style="width : 120px">Ajouter</BSButton> <br>
+							<BSButton IsOutlined="true" Color="BSColor.Warning" Target="model9" style="width : 120px; margin-top: 2px">Modifier</BSButton><br>
+							<BSButton IsOutlined="true" Color="BSColor.Danger" Target="model9" style="width : 120px; margin-top: 2px">Supprimer</BSButton>
 						</Content>
-					</BSDropdown>*@
-					@*<BSButton Color="BSColor.Primary" Target="model9"></BSButton>*@
+					</BSPopover>
+					
 				</BSTD>
+				
 			</BSDataTableRow>
 		</Body>
 	</BSDataTable>
-	<VisaCardModal dataId ="model9" ></VisaCardModal>
+	<VisaCardModal dataId="model9" OneVisaCard=@currentVisaCard></VisaCardModal>
 
 }
 @code {
@@ -74,6 +57,7 @@
 	private readonly int _startPage = 1;
 	private readonly VisaCardModel _model = new VisaCardModel();
 	private bool isVisaCardCreated = false;
+	public VisaCardModel currentVisaCard = new VisaCardModel()
 
 	private async Task CreateVisaCards()
 	{
@@ -94,21 +78,4 @@
 		visaCards = await visaCardData.GetAllVisaCards();
 	}
 	
-	//protected async override Task OnAfterRenderAsync(bool firstRender)
-	//{
-	//	if (firstRender)
-	//	{
-
-	//	}
-	//}
-
-	//private async Task<(IEnumerable<VisaCardModel>, int)> FetchItems(DataRequest dataRequest)
-	//{
-	//	visaCards = await visaCardData.GetAllVisaCards();
-	//	return (visaCards, 2);
-	//}
-
-	
-
-
 }

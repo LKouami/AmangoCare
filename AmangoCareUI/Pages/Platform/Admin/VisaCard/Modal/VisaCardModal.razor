@@ -7,11 +7,11 @@
 		<BSModalContent>
 			<div class="mb-3">
 				<BSLabel>Number</BSLabel>
-				<BSInput InputType="InputType.Text" @bind-Value="model.VisaCardNumber" />
+				<BSInput InputType="InputType.Text" @bind-Value="OneVisaCard.VisaCardNumber" />
 			</div>
 			<div class="mb-3">
 				<BSLabel>Exp Date</BSLabel>
-				<BSInput InputType="InputType.DateTimeLocal" placeholder="name@example.com" @bind-Value="model.VisaCardExpirationDate" />
+				<BSInput InputType="InputType.DateTimeLocal" placeholder="name@example.com" @bind-Value="OneVisaCard.VisaCardExpirationDate" />
 			</div>
 		</BSModalContent>
 		<BSModalFooter>
@@ -26,6 +26,8 @@
 	BSModal refModal;
 	[Parameter]
 	public string dataId { get; set; }
+	[Parameter]
+	public VisaCardModel OneVisaCard { get; set; }
 	private VisaCardModel model = new VisaCardModel();
 	private async Task NewVisaCard(VisaCardModel e)
 	{
